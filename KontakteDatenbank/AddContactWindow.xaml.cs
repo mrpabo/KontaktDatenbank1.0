@@ -1,15 +1,14 @@
-﻿using KontakteDatenbank.Models;
-using KontakteDatenbank.ViewModels;
+﻿using KontakteDatenbankDB.Managers;
+using KontakteDatenbankDB.Models;
+using KontakteDatenbankDB.ViewModels;
 using MahApps.Metro.Controls;
-using Microsoft.Win32;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using System.Collections.Generic;
-using System.IO;
+using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 
 
-namespace KontakteDatenbank
+namespace KontakteDatenbankDB
 {
     /// <summary>
     /// Interaktionslogik für AddContactWindow.xaml
@@ -17,6 +16,7 @@ namespace KontakteDatenbank
     public partial class AddContactWindow : MetroWindow
     {
         private AddContactWindowViewModel viewModel;
+        private PersonsManager _personsManager;
 
         public AddContactWindow()
         {
@@ -24,7 +24,26 @@ namespace KontakteDatenbank
 
             InitializeComponent();
 
+            _personsManager = new PersonsManager();
             DataContext = viewModel;
+
+
+        }
+
+        private ObservableCollection<Contact> _contacts;
+        public ObservableCollection<Contact> Contacts
+        {
+            get { return _contacts; }
+            set
+            {
+                _contacts = value;
+                OnPropertyChanged(nameof(Contacts));
+            }
+        }
+
+        private DependencyPropertyChangedEventArgs nameof(ObservableCollection<Contact> contacts)
+        {
+            throw new NotImplementedException();
         }
 
         private void Cmd_Save_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -46,28 +65,34 @@ namespace KontakteDatenbank
             this.Close();
         }
 
-        private void CMD_SelectProfileImage_Executed(object sender, ExecutedRoutedEventArgs e)
+        //private void CMD_SelectProfileImage_Executed(object sender, ExecutedRoutedEventArgs e)
+        //{
+        //    var dialog = new CommonOpenFileDialog
+        //    {
+        //        IsFolderPicker = false,
+        //        Multiselect = false,
+        //        InitialDirectory = @"D:\Projects-private\KontaktDatenbank-master\KontaktDatenbank-master\KontakteDatenbank\Bilder",
+        //    };
+
+        //    dialog.Filters.Add(new CommonFileDialogFilter("PNG-Datei (*.png)", "*.png"));
+        //    dialog.Filters.Add(new CommonFileDialogFilter("JPEG-Datei (*.jpg)", "*.jpg|*.jpeg"));
+        //    dialog.Filters.Add(new CommonFileDialogFilter("BMP-Datei (*.bmp)", "*.bmp"));
+
+        //    if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+        //    {
+        //        viewModel.SetNewProfilePicture(dialog.FileName);
+        //    }
+        //}
+
+        //private void CMD_SelectProfileImage_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        //{
+        //    e.CanExecute = true;
+        //}
+
+        public void LoadContacts()
         {
-            var dialog = new CommonOpenFileDialog
-            {
-                IsFolderPicker = false,
-                Multiselect = false,
-                InitialDirectory = @"D:\Projects-private\KontaktDatenbank-master\KontaktDatenbank-master\KontakteDatenbank\Bilder",
-            };
-
-            dialog.Filters.Add(new CommonFileDialogFilter("PNG-Datei (*.png)", "*.png"));
-            dialog.Filters.Add(new CommonFileDialogFilter("JPEG-Datei (*.jpg)", "*.jpg|*.jpeg"));
-            dialog.Filters.Add(new CommonFileDialogFilter("BMP-Datei (*.bmp)", "*.bmp"));
-
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                viewModel.SetNewProfilePicture(dialog.FileName);
-            }
+            Contacts = new ObservableCollection<Contact>(_personsManager.GetPersons());
         }
 
-        private void CMD_SelectProfileImage_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
     }
 }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KontakteDatenbank.Properties
+namespace KontakteDatenbankDB.Properties
 {
 
 

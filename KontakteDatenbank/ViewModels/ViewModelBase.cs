@@ -1,12 +1,11 @@
-﻿using KontakteDatenbank.Models;
+﻿using KontakteDatenbankDB.Models;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace KontakteDatenbank.ViewModels
+namespace KontakteDatenbankDB.ViewModels
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
-        private readonly Contact newContact;
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

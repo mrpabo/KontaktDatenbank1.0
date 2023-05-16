@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 
-namespace KontakteDatenbank
+namespace KontakteDatenbankDB
 {
     /// <summary>
     /// Interaktionslogik für "App.xaml"

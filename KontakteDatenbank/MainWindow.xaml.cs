@@ -1,6 +1,6 @@
-﻿using KontakteDatenbank.Extensions;
-using KontakteDatenbank.Models;
-using KontakteDatenbank.ViewModels;
+﻿using KontakteDatenbankDB.Extensions;
+using KontakteDatenbankDB.Models;
+using KontakteDatenbankDB.ViewModels;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
@@ -18,15 +18,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace KontakteDatenbank
+namespace KontakteDatenbankDB
 {
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        private MainWindowViewModel viewModel;
-        //private object items;
+        public MainWindowViewModel viewModel;
         bool _initialized = false;
 
         public MainWindow()
@@ -93,7 +92,9 @@ namespace KontakteDatenbank
                     e.Accepted =
                         contact.FirstName.Contains(viewModel.SelectedContactFilter, StringComparison.OrdinalIgnoreCase) ||
                         contact.LastName.Contains(viewModel.SelectedContactFilter, StringComparison.OrdinalIgnoreCase) ||
-                        contact.Email.Contains(viewModel.SelectedContactFilter, StringComparison.OrdinalIgnoreCase);
+                        contact.Mailaddresses.Any(x => x.Mailaddress1.Contains(viewModel.SelectedContactFilter, StringComparison.OrdinalIgnoreCase)) ||
+                        contact.Addresses.Any(x => x.FullAddress.Contains(viewModel.SelectedContactFilter, StringComparison.OrdinalIgnoreCase)) ||
+                        contact.PhoneNumbers.Any(x => x.PhoneNumber1.Contains(viewModel.SelectedContactFilter, StringComparison.OrdinalIgnoreCase));
 
                     return;
                 }
@@ -108,32 +109,5 @@ namespace KontakteDatenbank
             collection.View.Refresh();
         }
 
-
-
-        //private bool UserFilter(object item)
-        //{
-
-        //    Contact.ItemsSource = items;
-
-        //    CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Contact.ItemsSource);
-        //    view.Filter = UserFilter;
-
-
-        //    if (String.IsNullOrEmpty(txtFilter.Text))
-        //        return true;
-        //    else
-        //        return ((item as Contact).LastName.IndexOf(txtFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0);
-
-
-
-
-        //}
-
-
-
-        //private void TxtFilter_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        //{
-        //    CollectionViewSource.GetDefaultView(Contact.ItemsSource).Refresh(); =
-        //}
     }
 }
